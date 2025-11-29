@@ -98,31 +98,70 @@ export default function AnimatedStory({ messages, analysis, onComplete }: Animat
     }
 
     function revealMessage() {
+      const currentMsg = message
       setCurrentIndex(prev => prev + 1)
       
       // Play message sound
       playSound('message')
       
-      // Calculate health drop
-      const progressPercent = (currentIndex / messages.length) * 100
-      const targetHealth = 100 - (analysis.ghosting_probability * (progressPercent / 100))
-      const newHealth = Math.max(0, targetHealth)
+      // REAL-TIME TEXT ANALYSIS
+      const dryWords = ['k', 'ok', 'cool', 'nice', 'nicee', 'yeah', 'lol', 'haha']
+      const isDry = currentMsg.sender === 'them' && dryWords.some(w => currentMsg.text.toLowerCase().trim() === w)
+      
+      // Check for double texting
+      const isDoubleText = currentIndex > 0 && 
+                          messages[currentIndex - 1]?.sender === 'me' && 
+                          currentMsg.sender === 'me'
+      
+      // Check for gym mentions
+      const isGymFlex = currentMsg.sender === 'me' && 
+                       currentMsg.text.toLowerCase().match(/gym|workout|fitness|gains|legs/)
+      
+      // Check message length disparity
+      const myMessages = messages.slice(0, currentIndex + 1).filter(m => m.sender === 'me')
+      const theirMessages = messages.slice(0, currentIndex + 1).filter(m => m.sender === 'them')
+      const myAvgLength = myMessages.reduce((sum, m) => sum + m.text.length, 0) / Math.max(myMessages.length, 1)
+      const theirAvgLength = theirMessages.reduce((sum, m) => sum + m.text.length, 0) / Math.max(theirMessages.length, 1)
+      const isEnergyMismatch = myAvgLength > theirAvgLength * 2
+      
+      // Calculate health drop based on ACTUAL content
+      let healthDrop = 0
+      
+      if (isDry) {
+        healthDrop = 15
+        if (!redFlags.includes('Dry response detected')) {
+          setTimeout(() => triggerRedFlag('Dry response detected'), 500)
+        }
+      }
+      
+      if (isDoubleText) {
+        healthDrop = 20
+        if (!redFlags.includes('Double-texting detected')) {
+          setTimeout(() => triggerRedFlag('Double-texting detected'), 500)
+        }
+      }
+      
+      if (isGymFlex) {
+        healthDrop = 12
+        if (!redFlags.includes('Unsolicited gym flex')) {
+          setTimeout(() => triggerRedFlag('Unsolicited gym flex'), 500)
+        }
+      }
+      
+      if (isEnergyMismatch && myMessages.length > 3) {
+        healthDrop = Math.max(healthDrop, 10)
+        if (!redFlags.includes('Energy mismatch detected')) {
+          setTimeout(() => triggerRedFlag('Energy mismatch detected'), 500)
+        }
+      }
+      
+      // Calculate new health
+      const newHealth = Math.max(0, health - healthDrop)
       setHealth(newHealth)
       
       // Play heartbeat when health is low
       if (newHealth < 30 && newHealth > 0) {
         setTimeout(() => playSound('heartbeat'), 200)
-      }
-      
-      // Show red flags at certain points
-      if (currentIndex === Math.floor(messages.length * 0.3) && analysis.red_flags[0]) {
-        triggerRedFlag(analysis.red_flags[0])
-      }
-      if (currentIndex === Math.floor(messages.length * 0.6) && analysis.red_flags[1]) {
-        triggerRedFlag(analysis.red_flags[1])
-      }
-      if (currentIndex === Math.floor(messages.length * 0.9) && analysis.red_flags[2]) {
-        triggerRedFlag(analysis.red_flags[2])
       }
     }
   }, [currentIndex, messages.length])
