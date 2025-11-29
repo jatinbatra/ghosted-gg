@@ -21,9 +21,11 @@ export default function Home() {
   const [conversation, setConversation] = useState('')
   const [result, setResult] = useState<any>(null)
   const [loading, setLoading] = useState(false)
+  const [loadingMessage, setLoadingMessage] = useState('')
   const [ocrProgress, setOcrProgress] = useState(0)
   const [inputMode, setInputMode] = useState<'text' | 'screenshot'>('text')
   const fileInputRef = useRef<HTMLInputElement>(null)
+  const loadingIntervalRef = useRef<NodeJS.Timeout | null>(null)
 
   const pasteFromClipboard = async () => {
     try {
@@ -127,6 +129,22 @@ Analyzed by Ghosted.gg`
 
     setLoading(true)
     setResult(null)
+    
+    // Entertaining loading messages
+    const messages = [
+      '🔬 Analyzing desperation levels...',
+      '📊 Calculating cringe factor...',
+      '💀 Measuring simp energy...',
+      '🚩 Counting red flags...',
+      '⚰️ Preparing death certificate...'
+    ]
+    let msgIndex = 0
+    setLoadingMessage(messages[0])
+    
+    loadingIntervalRef.current = setInterval(() => {
+      msgIndex = (msgIndex + 1) % messages.length
+      setLoadingMessage(messages[msgIndex])
+    }, 1500)
 
     try {
       const response = await fetch('/api/autopsy', {
@@ -151,6 +169,9 @@ Analyzed by Ghosted.gg`
     } catch (error) {
       console.error('Autopsy failed')
     } finally {
+      if (loadingIntervalRef.current) {
+        clearInterval(loadingIntervalRef.current)
+      }
       setLoading(false)
     }
   }
@@ -192,20 +213,20 @@ Analyzed by Ghosted.gg`
 
         {/* HERO EXAMPLE - SHOW THE MAGIC */}
         {!result && (
-          <div className="mb-12 ghost-card p-6 border-4 border-red-500">
+          <div className="mb-12 ghost-card p-4 md:p-6 border-4 border-red-500">
             <div className="text-center mb-4">
               <div className="text-xs text-gray-500 mb-2">RECENT VICTIM</div>
               <div className="inline-block px-6 py-3 bg-black border-2 border-red-500">
-                <div className="text-5xl font-bold text-red-500">F-</div>
+                <div className="text-4xl md:text-5xl font-bold text-red-500">F-</div>
               </div>
             </div>
             <div className="text-center mb-4">
-              <h3 className="text-2xl font-bold text-red-500 mb-2" style={{ fontFamily: 'Creepster, cursive' }}>
+              <h3 className="text-xl md:text-2xl font-bold text-red-500 mb-2 px-2" style={{ fontFamily: 'Creepster, cursive' }}>
                 SENT "WYD" 11 TIMES IN ONE DAY
               </h3>
               <p className="text-gray-400 text-sm">Ghosting Probability: 96% 💀💀💀💀💀</p>
             </div>
-            <div className="text-center">
+            <div className="text-center px-2">
               <p className="text-orange-400 text-sm italic">
                 "Clinically desperate. No resuscitation possible."
               </p>
@@ -229,13 +250,13 @@ Analyzed by Ghosted.gg`
               inputMode === 'text' ? 'border-red-500 bg-red-900 bg-opacity-30' : ''
             }`}
           >
-            ✍️ Scribe
+            ✍️ Type It
           </button>
           <button
             onClick={pasteFromClipboard}
             className="spooky-button px-5 py-3 text-xs tracking-wider uppercase font-bold text-orange-400"
           >
-            📜 Summon Text
+            📋 Paste
           </button>
           <button
             onClick={() => setInputMode('screenshot')}
@@ -243,7 +264,7 @@ Analyzed by Ghosted.gg`
               inputMode === 'screenshot' ? 'border-red-500 bg-red-900 bg-opacity-30' : ''
             }`}
           >
-            📸 Capture
+            📸 Screenshot
           </button>
         </div>
 
@@ -258,8 +279,8 @@ Analyzed by Ghosted.gg`
               value={conversation}
               onChange={(e) => setConversation(e.target.value)}
               placeholder="Paste your tragic Tinder/Hinge/Bumble convo here...&#10;&#10;Format:&#10;Me: Hey! How's it going?&#10;Her: Good&#10;Me: Want to grab coffee?&#10;Her: Maybe&#10;&#10;Then click ⚰️ PERFORM AUTOPSY below"
-              className="input-spooky w-full h-64 p-5 text-white resize-none font-mono text-sm"
-              style={{ caretColor: '#ff0000' }}
+              className="input-spooky w-full h-64 md:h-64 p-4 md:p-5 text-white resize-none font-mono text-sm touch-manipulation"
+              style={{ caretColor: '#ff0000', minHeight: '200px' }}
             />
           ) : (
             <div>
@@ -309,7 +330,7 @@ Analyzed by Ghosted.gg`
             className="btn-deadly w-full h-14 text-white font-bold flex items-center justify-center gap-3 text-lg relative z-10"
           >
             <span className="text-2xl">☠️</span>
-            {loading ? '🔮 Summoning Spirits...' : '⚰️ PERFORM AUTOPSY'}
+            {loading ? loadingMessage : '⚰️ PERFORM AUTOPSY'}
           </button>
         </div>
 
