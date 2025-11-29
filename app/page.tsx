@@ -10,6 +10,10 @@ import FloatingGhosts from './components/FloatingGhosts'
 import AnimatedStory from './components/AnimatedStory'
 import DatingCoach from './components/DatingCoach'
 import ShareCard from './components/ShareCard'
+import DeathCertificate from './components/DeathCertificate'
+import ZombieRevival from './components/ZombieRevival'
+import CurseBreaker from './components/CurseBreaker'
+import Graveyard, { useGraveyard } from './components/Graveyard'
 import { createWorker } from 'tesseract.js'
 
 export default function Home() {
@@ -97,6 +101,7 @@ Analyzed by Ghosted.gg`
 
   const [showAnimation, setShowAnimation] = useState(false)
   const [parsedMessages, setParsedMessages] = useState<any[]>([])
+  const { addToGraveyard } = useGraveyard()
 
   const parseMessages = (text: string) => {
     const lines = text.split('\n').filter(line => line.trim())
@@ -136,8 +141,9 @@ Analyzed by Ghosted.gg`
         setParsedMessages(messages)
         setShowAnimation(true)
         
-        // Store result
+        // Store result and add to graveyard
         setResult(data)
+        addToGraveyard(data)
       }
     } catch (error) {
       console.error('Autopsy failed')
@@ -157,6 +163,7 @@ Analyzed by Ghosted.gg`
       )}
       
       <FloatingGhosts />
+      <Graveyard />
       <main className="min-h-screen p-6 md:p-12 relative z-10">
         <div className="max-w-5xl mx-auto">
         {/* Header */}
@@ -168,10 +175,14 @@ Analyzed by Ghosted.gg`
             GHOSTED.GG
           </h1>
           <p className="subtitle-spooky text-2xl md:text-3xl mb-4">
-            Where Conversations Come to Die
+            The Digital Morgue for Dead Conversations
           </p>
-          <p className="text-sm text-gray-400 mt-3 tracking-widest uppercase">
-            🎃 Kiroween Special Edition 🎃
+          <p className="text-gray-300 text-sm md:text-base mb-2 max-w-2xl mx-auto">
+            Perform a full forensic autopsy on your ghosted chats. Watch them die in real-time, 
+            discover the cause of death, and learn how to resurrect your dating game from the grave.
+          </p>
+          <p className="text-sm text-orange-500 mt-3 tracking-widest uppercase font-bold">
+            ☠️ Kiroween 2024 - Where Texts Go to Die ☠️
           </p>
         </div>
 
@@ -286,6 +297,21 @@ Analyzed by Ghosted.gg`
             
             {/* Dating Coach Section */}
             <DatingCoach result={result} originalMessages={parsedMessages} />
+            
+            {/* Zombie Revival */}
+            <div className="mt-8">
+              <ZombieRevival result={result} originalMessages={parsedMessages} />
+            </div>
+            
+            {/* Death Certificate */}
+            <div className="mt-8">
+              <DeathCertificate result={result} />
+            </div>
+            
+            {/* Curse Breaker */}
+            <div className="mt-8">
+              <CurseBreaker />
+            </div>
             
             {/* Share Card */}
             <ShareCard result={result} rizzScore={Math.max(0, 100 - result.ghosting_probability)} />
