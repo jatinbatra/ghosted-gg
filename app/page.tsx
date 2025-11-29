@@ -5,7 +5,6 @@ import AutopsyResult from './components/AutopsyResult'
 import GhostIcon from './components/GhostIcon'
 import ECGLine from './components/ECGLine'
 import SuggestedPrompts from './components/SuggestedPrompts'
-import MobileInstructions from './components/MobileInstructions'
 import FloatingGhosts from './components/FloatingGhosts'
 import AnimatedStory from './components/AnimatedStory'
 import DatingCoach from './components/DatingCoach'
@@ -24,7 +23,6 @@ export default function Home() {
   const [loading, setLoading] = useState(false)
   const [ocrProgress, setOcrProgress] = useState(0)
   const [inputMode, setInputMode] = useState<'text' | 'screenshot'>('text')
-  const [showHelp, setShowHelp] = useState(false)
   const fileInputRef = useRef<HTMLInputElement>(null)
 
   const pasteFromClipboard = async () => {
@@ -192,6 +190,29 @@ Analyzed by Ghosted.gg`
           </p>
         </div>
 
+        {/* HERO EXAMPLE - SHOW THE MAGIC */}
+        {!result && (
+          <div className="mb-12 ghost-card p-6 border-4 border-red-500">
+            <div className="text-center mb-4">
+              <div className="text-xs text-gray-500 mb-2">RECENT VICTIM</div>
+              <div className="inline-block px-6 py-3 bg-black border-2 border-red-500">
+                <div className="text-5xl font-bold text-red-500">F-</div>
+              </div>
+            </div>
+            <div className="text-center mb-4">
+              <h3 className="text-2xl font-bold text-red-500 mb-2" style={{ fontFamily: 'Creepster, cursive' }}>
+                SENT "WYD" 11 TIMES IN ONE DAY
+              </h3>
+              <p className="text-gray-400 text-sm">Ghosting Probability: 96% 💀💀💀💀💀</p>
+            </div>
+            <div className="text-center">
+              <p className="text-orange-400 text-sm italic">
+                "Clinically desperate. No resuscitation possible."
+              </p>
+            </div>
+          </div>
+        )}
+
         {/* Suggested Prompts */}
         {!result && (
           <SuggestedPrompts onSelect={(text) => {
@@ -228,32 +249,15 @@ Analyzed by Ghosted.gg`
 
         {/* Input Section */}
         <div className="mb-8">
-          <div className="flex justify-between items-center mb-3">
-            <label className="text-xs text-gray-400 tracking-widest uppercase">
-              {inputMode === 'text' ? '📜 Cursed Conversation' : '📸 Haunted Screenshot'}
-            </label>
-            <button
-              onClick={() => setShowHelp(!showHelp)}
-              className="text-xs text-gray-500 hover:text-gray-300"
-            >
-              {showHelp ? 'Hide Help' : 'Need Help?'}
-            </button>
-          </div>
-          
-          {showHelp && (
-            <div className="mb-4 p-4 bg-gray-900 border border-gray-700 rounded text-xs text-gray-400">
-              <p className="mb-2"><strong className="text-orange-500">Quick Start:</strong></p>
-              <p>1. Copy messages from any app (iMessage, WhatsApp, Tinder)</p>
-              <p>2. Click "📜 Summon Text" to paste</p>
-              <p>3. Click "⚰️ PERFORM AUTOPSY"</p>
-            </div>
-          )}
+          <label className="block text-xs text-gray-400 mb-3 tracking-widest uppercase">
+            {inputMode === 'text' ? '📜 Paste Your Dead Conversation' : '📸 Upload Screenshot'}
+          </label>
           
           {inputMode === 'text' ? (
             <textarea
               value={conversation}
               onChange={(e) => setConversation(e.target.value)}
-              placeholder="Me: Hey! How's your week going?&#10;Her: Good!! You?&#10;Me: Pretty good, just finished legs at the gym.&#10;Her: Nicee&#10;Me: Wanna hang this weekend?"
+              placeholder="Paste your tragic Tinder/Hinge/Bumble convo here...&#10;&#10;Format:&#10;Me: Hey! How's it going?&#10;Her: Good&#10;Me: Want to grab coffee?&#10;Her: Maybe&#10;&#10;Then click ⚰️ PERFORM AUTOPSY below"
               className="input-spooky w-full h-64 p-5 text-white resize-none font-mono text-sm"
               style={{ caretColor: '#ff0000' }}
             />

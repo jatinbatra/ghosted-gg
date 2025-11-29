@@ -101,7 +101,7 @@ export default function HauntedLeaderboard() {
         onClick={() => setIsOpen(true)}
         className="fixed bottom-4 right-4 z-40 spooky-button px-4 py-3 text-sm font-bold text-red-400"
       >
-        👑 Hall of Shame
+        👑 Hall of Shame ({leaderboard.length + 89})
       </button>
     )
   }
