@@ -7,6 +7,7 @@ import ECGLine from './components/ECGLine'
 import SuggestedPrompts from './components/SuggestedPrompts'
 import MobileInstructions from './components/MobileInstructions'
 import FloatingGhosts from './components/FloatingGhosts'
+import AnimatedStory from './components/AnimatedStory'
 import { createWorker } from 'tesseract.js'
 
 export default function Home() {
@@ -92,6 +93,24 @@ Analyzed by Ghosted.gg`
     }
   }
 
+  const [showAnimation, setShowAnimation] = useState(false)
+  const [parsedMessages, setParsedMessages] = useState<any[]>([])
+
+  const parseMessages = (text: string) => {
+    const lines = text.split('\n').filter(line => line.trim())
+    const messages: any[] = []
+    
+    for (const line of lines) {
+      const lower = line.toLowerCase()
+      if (lower.startsWith('me:') || lower.startsWith('you:')) {
+        messages.push({ sender: 'me', text: line.substring(line.indexOf(':') + 1).trim() })
+      } else if (lower.match(/^(her:|him:|them:)/)) {
+        messages.push({ sender: 'them', text: line.substring(line.indexOf(':') + 1).trim() })
+      }
+    }
+    return messages
+  }
+
   const performAutopsy = async () => {
     if (!conversation.trim()) {
       return
@@ -110,6 +129,12 @@ Analyzed by Ghosted.gg`
       const data = await response.json()
       
       if (response.ok) {
+        // Parse messages and show animation
+        const messages = parseMessages(conversation)
+        setParsedMessages(messages)
+        setShowAnimation(true)
+        
+        // Store result
         setResult(data)
       }
     } catch (error) {
@@ -121,6 +146,14 @@ Analyzed by Ghosted.gg`
 
   return (
     <>
+      {showAnimation && result && (
+        <AnimatedStory 
+          messages={parsedMessages}
+          analysis={result}
+          onComplete={() => setShowAnimation(false)}
+        />
+      )}
+      
       <FloatingGhosts />
       <main className="min-h-screen p-6 md:p-12 relative z-10">
         <div className="max-w-5xl mx-auto">
