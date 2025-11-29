@@ -4,7 +4,7 @@
 
 Ever wonder why someone ghosted you? Paste your chat and get a full forensic analysis: ghosting probability, cause of death, time of death, and a toxicology report of red flags.
 
-Built for **Kiroween 2024** 🎃
+Built for **Kiroween 2025 Hackathon** 🎃
 
 ---
 
@@ -149,6 +149,6 @@ MIT License - feel free to fork and build your own version!
 
 ## 🙏 Credits
 
-Built with [Kiro AI](https://kiro.ai) for Kiroween 2024.
+Built with [Kiro AI](https://kiro.ai) for Kiroween 2025 Hackathon.
 
 May your next conversation live longer. 🕊️

@@ -187,7 +187,7 @@ Analyzed by Ghosted.gg`
             discover the cause of death, and learn how to resurrect your dating game from the grave.
           </p>
           <p className="text-sm text-orange-500 mt-3 tracking-widest uppercase font-bold">
-            ☠️ Kiroween 2024 - Where Texts Go to Die ☠️
+            ☠️ Kiroween 2025 Hackathon - Where Texts Go to Die ☠️
           </p>
         </div>
 
