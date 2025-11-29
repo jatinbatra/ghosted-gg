@@ -14,6 +14,8 @@ import DeathCertificate from './components/DeathCertificate'
 import ZombieRevival from './components/ZombieRevival'
 import CurseBreaker from './components/CurseBreaker'
 import Graveyard, { useGraveyard } from './components/Graveyard'
+import SeanceMode from './components/SeanceMode'
+import HauntedLeaderboard, { useLeaderboard } from './components/HauntedLeaderboard'
 import { createWorker } from 'tesseract.js'
 
 export default function Home() {
@@ -102,6 +104,7 @@ Analyzed by Ghosted.gg`
   const [showAnimation, setShowAnimation] = useState(false)
   const [parsedMessages, setParsedMessages] = useState<any[]>([])
   const { addToGraveyard } = useGraveyard()
+  const { addToLeaderboard } = useLeaderboard()
 
   const parseMessages = (text: string) => {
     const lines = text.split('\n').filter(line => line.trim())
@@ -141,9 +144,10 @@ Analyzed by Ghosted.gg`
         setParsedMessages(messages)
         setShowAnimation(true)
         
-        // Store result and add to graveyard
+        // Store result and add to graveyard + leaderboard
         setResult(data)
         addToGraveyard(data)
+        addToLeaderboard(data)
       }
     } catch (error) {
       console.error('Autopsy failed')
@@ -164,6 +168,7 @@ Analyzed by Ghosted.gg`
       
       <FloatingGhosts />
       <Graveyard />
+      <HauntedLeaderboard />
       <main className="min-h-screen p-6 md:p-12 relative z-10">
         <div className="max-w-5xl mx-auto">
         {/* Header */}
@@ -311,6 +316,11 @@ Analyzed by Ghosted.gg`
             {/* Curse Breaker */}
             <div className="mt-8">
               <CurseBreaker />
+            </div>
+            
+            {/* Séance Mode */}
+            <div className="mt-8">
+              <SeanceMode result={result} />
             </div>
             
             {/* Share Card */}
