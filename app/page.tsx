@@ -8,6 +8,8 @@ import SuggestedPrompts from './components/SuggestedPrompts'
 import MobileInstructions from './components/MobileInstructions'
 import FloatingGhosts from './components/FloatingGhosts'
 import AnimatedStory from './components/AnimatedStory'
+import DatingCoach from './components/DatingCoach'
+import ShareCard from './components/ShareCard'
 import { createWorker } from 'tesseract.js'
 
 export default function Home() {
@@ -277,10 +279,16 @@ Analyzed by Ghosted.gg`
         </div>
 
         {/* Results */}
-        {result && (
+        {result && !showAnimation && (
           <div className="animate-fade-in">
             <ECGLine />
             <AutopsyResult result={result} />
+            
+            {/* Dating Coach Section */}
+            <DatingCoach result={result} originalMessages={parsedMessages} />
+            
+            {/* Share Card */}
+            <ShareCard result={result} rizzScore={Math.max(0, 100 - result.ghosting_probability)} />
             
             {/* Action Buttons */}
             <div className="mt-8 flex gap-4 justify-center flex-wrap">
