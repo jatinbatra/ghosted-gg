@@ -80,7 +80,7 @@ export default function Graveyard() {
     return (
       <button
         onClick={() => setIsOpen(true)}
-        className="fixed bottom-4 left-4 z-40 spooky-button px-4 py-3 text-sm font-bold text-orange-400"
+        className="fixed bottom-4 left-4 z-40 spooky-button px-4 py-3 text-sm font-bold text-orange-400 animate-pulse"
       >
         🪦 Graveyard ({graves.length + 127})
       </button>

@@ -24,6 +24,7 @@ export default function Home() {
   const [loadingMessage, setLoadingMessage] = useState('')
   const [ocrProgress, setOcrProgress] = useState(0)
   const [inputMode, setInputMode] = useState<'text' | 'screenshot'>('text')
+  const [showHallOfShameNotif, setShowHallOfShameNotif] = useState(false)
   const fileInputRef = useRef<HTMLInputElement>(null)
   const loadingIntervalRef = useRef<NodeJS.Timeout | null>(null)
 
@@ -165,6 +166,14 @@ Analyzed by Ghosted.gg`
         setResult(data)
         addToGraveyard(data)
         addToLeaderboard(data)
+        
+        // Show notification
+        if (data.ghosting_probability > 70) {
+          setTimeout(() => {
+            setShowHallOfShameNotif(true)
+            setTimeout(() => setShowHallOfShameNotif(false), 5000)
+          }, 2000)
+        }
       }
     } catch (error) {
       console.error('Autopsy failed')
@@ -189,6 +198,21 @@ Analyzed by Ghosted.gg`
       <FloatingGhosts />
       <Graveyard />
       <HauntedLeaderboard />
+      
+      {/* Hall of Shame Notification */}
+      {showHallOfShameNotif && (
+        <div className="fixed top-4 left-1/2 transform -translate-x-1/2 z-50 animate-slide-in">
+          <div className="bg-red-900 border-4 border-red-500 px-6 py-4 rounded shadow-2xl">
+            <p className="text-white font-bold text-lg">
+              🔥 YOU'VE BEEN ADDED TO THE HALL OF SHAME! 🔥
+            </p>
+            <p className="text-gray-300 text-sm mt-1">
+              Check the bottom right corner →
+            </p>
+          </div>
+        </div>
+      )}
+      
       <main className="min-h-screen p-6 md:p-12 relative z-10">
         <div className="max-w-5xl mx-auto">
         {/* Header */}
@@ -367,36 +391,58 @@ Analyzed by Ghosted.gg`
             <ShareCard result={result} rizzScore={Math.max(0, 100 - result.ghosting_probability)} />
             
             {/* Action Buttons */}
-            <div className="mt-8 flex gap-4 justify-center flex-wrap">
-              <button
-                onClick={copyResults}
-                className="spooky-button px-6 py-3 text-sm tracking-wider uppercase font-bold text-orange-400"
-              >
-                📜 Copy Curse
-              </button>
-              <button
-                onClick={() => {
-                  if (navigator.share) {
-                    navigator.share({
-                      title: 'Ghosted.gg Autopsy Report',
-                      text: `Ghosting Probability: ${result.ghosting_probability}% - ${result.verdict}`,
-                      url: window.location.href
-                    })
-                  }
-                }}
-                className="spooky-button px-6 py-3 text-sm tracking-wider uppercase font-bold text-orange-400"
-              >
-                👻 Haunt Friends
-              </button>
-              <button
-                onClick={() => {
-                  setResult(null)
-                  setConversation('')
-                }}
-                className="spooky-button px-6 py-3 text-sm tracking-wider uppercase font-bold text-orange-400 hover:border-red-500"
-              >
-                ⚰️ New Victim
-              </button>
+            <div className="mt-8 space-y-4">
+              {/* MASSIVE TWITTER SHARE CTA */}
+              <div className="text-center p-6 bg-gradient-to-r from-blue-900 to-blue-700 border-4 border-blue-500 rounded">
+                <p className="text-white text-lg font-bold mb-3">
+                  🔥 Your result is BRUTAL. Share the pain:
+                </p>
+                <button
+                  onClick={() => {
+                    const grade = result.ghosting_probability > 90 ? 'F-' :
+                                 result.ghosting_probability > 80 ? 'F' :
+                                 result.ghosting_probability > 70 ? 'D' :
+                                 result.ghosting_probability > 60 ? 'C' : 'B'
+                    const tweetText = `I got a ${grade} on Ghosted.gg 💀\n\nCause of death: ${result.cause_of_death}\n\nGhosting probability: ${result.ghosting_probability}%\n\nGet roasted: ${window.location.origin}`
+                    window.open(`https://twitter.com/intent/tweet?text=${encodeURIComponent(tweetText)}`, '_blank')
+                  }}
+                  className="px-8 py-4 bg-blue-500 hover:bg-blue-400 text-white font-bold text-lg rounded transition-all transform hover:scale-105"
+                >
+                  🐦 Share on Twitter
+                </button>
+              </div>
+              
+              <div className="flex gap-4 justify-center flex-wrap">
+                <button
+                  onClick={copyResults}
+                  className="spooky-button px-6 py-3 text-sm tracking-wider uppercase font-bold text-orange-400"
+                >
+                  📜 Copy Results
+                </button>
+                <button
+                  onClick={() => {
+                    if (navigator.share) {
+                      navigator.share({
+                        title: 'Ghosted.gg Autopsy Report',
+                        text: `Ghosting Probability: ${result.ghosting_probability}% - ${result.verdict}`,
+                        url: window.location.href
+                      })
+                    }
+                  }}
+                  className="spooky-button px-6 py-3 text-sm tracking-wider uppercase font-bold text-orange-400"
+                >
+                  📤 Share
+                </button>
+                <button
+                  onClick={() => {
+                    setResult(null)
+                    setConversation('')
+                  }}
+                  className="spooky-button px-6 py-3 text-sm tracking-wider uppercase font-bold text-orange-400 hover:border-red-500"
+                >
+                  ⚰️ New Victim
+                </button>
+              </div>
             </div>
           </div>
         )}
