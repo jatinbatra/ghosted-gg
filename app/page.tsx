@@ -399,14 +399,30 @@ Analyzed by Ghosted.gg`
                 </p>
                 <button
                   onClick={() => {
-                    const grade = result.ghosting_probability > 90 ? 'F-' :
-                                 result.ghosting_probability > 80 ? 'F' :
-                                 result.ghosting_probability > 70 ? 'D' :
-                                 result.ghosting_probability > 60 ? 'C' : 'B'
-                    const tweetText = `I got a ${grade} on Ghosted.gg 💀\n\nCause of death: ${result.cause_of_death}\n\nGhosting probability: ${result.ghosting_probability}%\n\nGet roasted: ${window.location.origin}`
-                    window.open(`https://twitter.com/intent/tweet?text=${encodeURIComponent(tweetText)}`, '_blank')
+                    try {
+                      const grade = result.ghosting_probability > 90 ? 'F-' :
+                                   result.ghosting_probability > 80 ? 'F' :
+                                   result.ghosting_probability > 70 ? 'D' :
+                                   result.ghosting_probability > 60 ? 'C' : 'B'
+                      const tweetText = `I got a ${grade} on Ghosted.gg 💀
+
+Cause of death: ${result.cause_of_death}
+
+Ghosting probability: ${result.ghosting_probability}%
+
+Get roasted: ${window.location.origin}`
+                      const twitterUrl = `https://twitter.com/intent/tweet?text=${encodeURIComponent(tweetText)}`
+                      const newWindow = window.open(twitterUrl, '_blank', 'noopener,noreferrer')
+                      if (!newWindow) {
+                        // Fallback if popup blocked
+                        window.location.href = twitterUrl
+                      }
+                    } catch (error) {
+                      console.error('Twitter share failed:', error)
+                      alert('Could not open Twitter. Please check your popup blocker.')
+                    }
                   }}
-                  className="px-8 py-4 bg-blue-500 hover:bg-blue-400 text-white font-bold text-lg rounded transition-all transform hover:scale-105"
+                  className="px-8 py-4 bg-blue-500 hover:bg-blue-400 text-white font-bold text-lg rounded transition-all transform hover:scale-105 cursor-pointer"
                 >
                   🐦 Share on Twitter
                 </button>
