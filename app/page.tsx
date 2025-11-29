@@ -24,6 +24,7 @@ export default function Home() {
   const [loading, setLoading] = useState(false)
   const [ocrProgress, setOcrProgress] = useState(0)
   const [inputMode, setInputMode] = useState<'text' | 'screenshot'>('text')
+  const [showHelp, setShowHelp] = useState(false)
   const fileInputRef = useRef<HTMLInputElement>(null)
 
   const pasteFromClipboard = async () => {
@@ -191,9 +192,6 @@ Analyzed by Ghosted.gg`
           </p>
         </div>
 
-        {/* Mobile Instructions */}
-        {!result && <MobileInstructions />}
-
         {/* Suggested Prompts */}
         {!result && (
           <SuggestedPrompts onSelect={(text) => {
@@ -230,9 +228,26 @@ Analyzed by Ghosted.gg`
 
         {/* Input Section */}
         <div className="mb-8">
-          <label className="block text-xs text-gray-400 mb-3 tracking-widest uppercase">
-            {inputMode === 'text' ? '📜 Cursed Conversation' : '📸 Haunted Screenshot'}
-          </label>
+          <div className="flex justify-between items-center mb-3">
+            <label className="text-xs text-gray-400 tracking-widest uppercase">
+              {inputMode === 'text' ? '📜 Cursed Conversation' : '📸 Haunted Screenshot'}
+            </label>
+            <button
+              onClick={() => setShowHelp(!showHelp)}
+              className="text-xs text-gray-500 hover:text-gray-300"
+            >
+              {showHelp ? 'Hide Help' : 'Need Help?'}
+            </button>
+          </div>
+          
+          {showHelp && (
+            <div className="mb-4 p-4 bg-gray-900 border border-gray-700 rounded text-xs text-gray-400">
+              <p className="mb-2"><strong className="text-orange-500">Quick Start:</strong></p>
+              <p>1. Copy messages from any app (iMessage, WhatsApp, Tinder)</p>
+              <p>2. Click "📜 Summon Text" to paste</p>
+              <p>3. Click "⚰️ PERFORM AUTOPSY"</p>
+            </div>
+          )}
           
           {inputMode === 'text' ? (
             <textarea

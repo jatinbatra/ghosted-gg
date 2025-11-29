@@ -38,17 +38,50 @@ export default function AutopsyResult({ result }: AutopsyResultProps) {
           ☠️ Autopsy Report ☠️
         </h2>
         <div className="w-32 h-1 bg-red-600 mx-auto mt-4"></div>
+        
+        {/* GRADE */}
+        <div className="mt-6 inline-block px-8 py-4 bg-black border-4 border-red-500">
+          <div className="text-xs text-gray-400 mb-1">FINAL GRADE</div>
+          <div className="text-6xl font-bold" style={{ 
+            color: result.ghosting_probability > 80 ? '#ef4444' : 
+                   result.ghosting_probability > 60 ? '#f97316' : 
+                   result.ghosting_probability > 40 ? '#eab308' : '#22c55e'
+          }}>
+            {result.ghosting_probability > 90 ? 'F-' :
+             result.ghosting_probability > 80 ? 'F' :
+             result.ghosting_probability > 70 ? 'D' :
+             result.ghosting_probability > 60 ? 'C' :
+             result.ghosting_probability > 40 ? 'B' : 'A'}
+          </div>
+        </div>
       </div>
 
       {/* Ghosting Probability & Severity */}
       <div className="ghost-card p-6">
-        <h3 className="text-orange-500 font-bold mb-4 text-sm tracking-widest uppercase">☠️ Ghosting Probability</h3>
+        <h3 className="text-orange-500 font-bold mb-4 text-sm tracking-widest uppercase">☠️ DEATH METER</h3>
+        <div className="grid grid-cols-3 gap-4 mb-4">
+          <div className="text-center">
+            <div className="text-xs text-gray-500 mb-2">CRINGE LEVEL</div>
+            <div className="text-3xl font-bold text-red-500">{Math.min(100, result.ghosting_probability + 10)}%</div>
+          </div>
+          <div className="text-center">
+            <div className="text-xs text-gray-500 mb-2">DESPERATION</div>
+            <div className="text-3xl font-bold text-orange-500">
+              {result.red_flags.some((f: string) => f.includes('Double')) ? 'HIGH' : 
+               result.ghosting_probability > 70 ? 'MED' : 'LOW'}
+            </div>
+          </div>
+          <div className="text-center">
+            <div className="text-xs text-gray-500 mb-2">SURVIVAL</div>
+            <div className="text-3xl font-bold text-green-500">{100 - result.ghosting_probability}%</div>
+          </div>
+        </div>
         <div className="flex items-end gap-4 mb-4">
           <div className="text-5xl font-bold text-red-500 tabular-nums">
             {result.ghosting_probability}%
           </div>
           <div className="flex-1 mb-3">
-            <div className="w-full bg-gray-900 h-2 rounded-sm overflow-hidden">
+            <div className="w-full bg-gray-900 h-4 rounded-sm overflow-hidden border-2 border-red-900">
               <div
                 className="probability-bar h-full"
                 style={{ width: `${result.ghosting_probability}%` }}
@@ -56,7 +89,7 @@ export default function AutopsyResult({ result }: AutopsyResultProps) {
             </div>
           </div>
         </div>
-        <div className="text-3xl">{result.severity_meter}</div>
+        <div className="text-4xl text-center">{result.severity_meter}</div>
       </div>
 
       {/* Verdict */}
@@ -111,12 +144,16 @@ export default function AutopsyResult({ result }: AutopsyResultProps) {
         </div>
       </div>
 
-      {/* Cause of Death */}
-      <div className="ghost-card p-6 border-4">
-        <h3 className="text-red-500 font-bold mb-3 text-sm tracking-widest uppercase blood-drip">🩸 Cause of Death</h3>
-        <p className="text-gray-200 leading-relaxed text-lg">
-          {result.cause_of_death}
-        </p>
+      {/* Cause of Death - GIANT HEADLINE */}
+      <div className="ghost-card p-8 border-4 border-red-500 bg-black text-center">
+        <div className="text-xs text-red-400 mb-2 tracking-widest">OFFICIAL CAUSE OF DEATH</div>
+        <h2 className="text-3xl md:text-4xl font-bold text-red-500 mb-4 leading-tight" style={{ fontFamily: 'Creepster, cursive' }}>
+          {result.cause_of_death.toUpperCase()}
+        </h2>
+        <div className="text-6xl mb-4">⚰️</div>
+        <div className="text-sm text-gray-400 italic">
+          Pronounced dead on arrival
+        </div>
       </div>
 
       {/* Toxicology Report */}

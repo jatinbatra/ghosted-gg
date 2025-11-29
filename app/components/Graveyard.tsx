@@ -19,6 +19,47 @@ export default function Graveyard() {
     const saved = localStorage.getItem('ghosted_graveyard')
     if (saved) {
       setGraves(JSON.parse(saved))
+    } else {
+      // SEED WITH STAFF PICKS
+      const staffPicks: GraveyardEntry[] = [
+        {
+          id: 'staff1',
+          date: 'Nov 25, 2025',
+          ghostingProb: 94,
+          causeOfDeath: 'Fatal double-text syndrome. Sent 4 messages in 10 minutes.',
+          severity: '💀💀💀💀💀'
+        },
+        {
+          id: 'staff2',
+          date: 'Nov 24, 2025',
+          ghostingProb: 88,
+          causeOfDeath: 'Unsolicited gym selfie. Nobody asked about your workout routine.',
+          severity: '💀💀💀💀'
+        },
+        {
+          id: 'staff3',
+          date: 'Nov 23, 2025',
+          ghostingProb: 91,
+          causeOfDeath: 'Interview mode activated. Asked 7 questions in a row.',
+          severity: '💀💀💀💀💀'
+        },
+        {
+          id: 'staff4',
+          date: 'Nov 22, 2025',
+          ghostingProb: 85,
+          causeOfDeath: 'Energy mismatch. You wrote essays, they wrote "k".',
+          severity: '💀💀💀💀'
+        },
+        {
+          id: 'staff5',
+          date: 'Nov 21, 2025',
+          ghostingProb: 79,
+          causeOfDeath: 'Emoji overload. 47 emojis in 3 messages.',
+          severity: '💀💀💀'
+        }
+      ]
+      setGraves(staffPicks)
+      localStorage.setItem('ghosted_graveyard', JSON.stringify(staffPicks))
     }
   }, [])
 

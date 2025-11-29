@@ -21,6 +21,48 @@ export default function HauntedLeaderboard() {
     if (saved) {
       const entries = JSON.parse(saved)
       filterByTimeframe(entries)
+    } else {
+      // SEED WITH STAFF PICKS
+      const staffPicks: LeaderboardEntry[] = [
+        {
+          id: 'lead1',
+          ghostingProb: 96,
+          causeOfDeath: 'Sent "wyd" 11 times in one day. Clinically desperate.',
+          severity: '💀💀💀💀💀',
+          timestamp: Date.now() - 86400000
+        },
+        {
+          id: 'lead2',
+          ghostingProb: 93,
+          causeOfDeath: 'Wrote a 500-word essay about feelings. They replied "cool".',
+          severity: '💀💀💀💀💀',
+          timestamp: Date.now() - 172800000
+        },
+        {
+          id: 'lead3',
+          ghostingProb: 91,
+          causeOfDeath: 'Asked "are you mad at me?" 6 times. They were not mad. Now they are.',
+          severity: '💀💀💀💀💀',
+          timestamp: Date.now() - 259200000
+        },
+        {
+          id: 'lead4',
+          ghostingProb: 89,
+          causeOfDeath: 'Mentioned crypto in first 3 messages. Terminal cringe.',
+          severity: '💀💀💀💀',
+          timestamp: Date.now() - 345600000
+        },
+        {
+          id: 'lead5',
+          ghostingProb: 87,
+          causeOfDeath: 'Replied in 0.3 seconds every time. Came off as unemployed.',
+          severity: '💀💀💀💀',
+          timestamp: Date.now() - 432000000
+        }
+      ]
+      const filtered = staffPicks
+      setLeaderboard(filtered)
+      localStorage.setItem('ghosted_leaderboard', JSON.stringify(staffPicks))
     }
   }, [timeframe])
 
