@@ -8,52 +8,52 @@ interface SeanceModeProps {
 
 const SPIRIT_GUIDES = [
   {
-    name: 'Dr. Love',
-    emoji: '💕',
-    personality: 'Romantic psychologist',
+    name: 'The Phantom of Romance',
+    emoji: '👻',
+    personality: 'Ghostly love expert from beyond',
     advice: (result: any) => {
       if (result.ghosting_probability > 70) {
-        return "Listen, darling. This person wasn't emotionally available. You deserve someone who's excited to text you back. Don't chase someone who's running away."
+        return "From the realm of lost love, I warn you... This soul has already departed. They walk among the emotionally unavailable. Release them to the void, lest you join them in eternal longing."
       }
-      return "The foundation of any relationship is reciprocity. If they're not matching your energy, they're showing you who they are. Believe them."
+      return "The spirits whisper ancient truths: Love must be reciprocal, or it becomes a curse. If their energy does not match yours, they are but a phantom in your life. Banish them."
     }
   },
   {
-    name: 'The Rizz Master',
-    emoji: '😎',
-    personality: 'Charisma coach',
+    name: 'The Reaper of Rizz',
+    emoji: '💀',
+    personality: 'Death himself, master of attraction',
     advice: (result: any) => {
       if (result.red_flags.some((f: string) => f.includes('Double-texting'))) {
-        return "Bro, you're coming on too strong. Rizz is about confidence, not desperation. Pull back, let them chase you a bit. Scarcity creates value."
+        return "I have claimed many souls who chased too eagerly. Desperation is the scent of death. Pull back into the shadows. Let them wonder if you still walk this earth. Mystery is power."
       }
-      return "Real rizz is about being genuinely interesting, not trying too hard. Be mysterious, be fun, be unpredictable. Boring = ghosted."
+      return "I have witnessed eons of courtship. The living who bore others are swiftly taken. Be unpredictable. Be dangerous. Be the darkness they cannot resist."
     }
   },
   {
-    name: 'Grandma Wisdom',
-    emoji: '👵',
-    personality: 'Old-school dating advice',
+    name: 'The Crypt Keeper',
+    emoji: '⚰️',
+    personality: 'Ancient guardian of dating wisdom',
     advice: (result: any) => {
-      return "In my day, we didn't have all these text messages. But one thing hasn't changed: if someone wants to be with you, they'll make time. Don't waste your youth on someone who doesn't appreciate you, dear."
+      return "I have guarded these tombs for centuries, watching lovers come and go. Heed my warning: Those who do not value your time shall be buried in the graveyard of forgotten connections. Move on, before you join them."
     }
   },
   {
-    name: 'The Savage',
-    emoji: '🔥',
-    personality: 'Brutally honest friend',
+    name: 'The Witch of Truth',
+    emoji: '🧙‍♀️',
+    personality: 'Brutally honest sorceress',
     advice: (result: any) => {
       if (result.ghosting_probability > 80) {
-        return "They're just not that into you. Period. Stop analyzing every word. Delete the thread, hit the gym, and move on. You're embarrassing yourself."
+        return "My crystal ball shows no future here. They care not for you. This is a curse you must break yourself. Delete their number. Burn sage. Move on, or be hexed with eternal pining."
       }
-      return "You're overthinking this. If they wanted to talk to you, they would. Stop making excuses for people who don't care. Have some self-respect."
+      return "I cast a truth spell upon you: Stop making excuses for the living who treat you like the dead. You deserve a love that doesn't require necromancy to revive."
     }
   },
   {
-    name: 'The Optimist',
-    emoji: '🌟',
-    personality: 'Positive mindset coach',
+    name: 'The Vampire of Hope',
+    emoji: '🧛',
+    personality: 'Immortal optimist',
     advice: (result: any) => {
-      return "Every rejection is redirection! This person wasn't your person. The universe is protecting you from something that wasn't meant to be. Your perfect match is out there, and they'll be excited to text you back!"
+      return "I have lived for centuries, and I promise you this: Every rejection is the universe protecting you from a mortal wound. Your eternal soulmate awaits. This ghost was merely a distraction from your destiny."
     }
   }
 ]
@@ -74,19 +74,28 @@ export default function SeanceMode({ result }: SeanceModeProps) {
     <div className="ghost-card p-6 border-4 border-purple-500">
       <div className="text-center mb-6">
         <div className="text-5xl mb-3">🔮</div>
-        <h3 className="text-2xl font-bold text-purple-500 mb-2">
+        <h3 className="text-2xl font-bold text-purple-500 mb-2" style={{ fontFamily: 'Creepster, cursive' }}>
           SÉANCE MODE
         </h3>
         <p className="text-gray-400">
-          Summon the spirits of dating experts for guidance
+          Channel the spirits of the dead for forbidden wisdom
+        </p>
+        <p className="text-purple-500 text-xs mt-2">
+          ⚠️ The veil between worlds grows thin...
         </p>
       </div>
 
       {isChanneling && (
-        <div className="text-center py-12">
-          <div className="text-6xl mb-4 animate-pulse">👻</div>
-          <p className="text-purple-400 text-lg">Channeling the spirits...</p>
-          <p className="text-gray-500 text-sm mt-2">The veil between worlds grows thin...</p>
+        <div className="text-center py-12 relative">
+          <div className="absolute inset-0 bg-purple-900 opacity-10 animate-pulse"></div>
+          <div className="text-6xl mb-4 animate-float">👻</div>
+          <p className="text-purple-400 text-lg font-bold">Channeling the spirits...</p>
+          <p className="text-gray-500 text-sm mt-2">🕯️ The dead are speaking... 🕯️</p>
+          <div className="flex justify-center gap-2 mt-4">
+            <div className="w-2 h-2 bg-purple-500 rounded-full animate-pulse"></div>
+            <div className="w-2 h-2 bg-purple-500 rounded-full animate-pulse" style={{ animationDelay: '0.2s' }}></div>
+            <div className="w-2 h-2 bg-purple-500 rounded-full animate-pulse" style={{ animationDelay: '0.4s' }}></div>
+          </div>
         </div>
       )}
 
@@ -96,13 +105,15 @@ export default function SeanceMode({ result }: SeanceModeProps) {
             <button
               key={index}
               onClick={() => summonSpirit(index)}
-              className="p-6 bg-purple-950 bg-opacity-30 border-2 border-purple-500 rounded hover:bg-purple-900 hover:scale-105 transition-all text-left"
+              className="p-6 bg-purple-950 bg-opacity-30 border-2 border-purple-500 rounded hover:bg-purple-900 hover:scale-105 transition-all text-left relative group"
             >
+              <div className="absolute inset-0 bg-purple-500 opacity-0 group-hover:opacity-10 transition-opacity"></div>
               <div className="text-4xl mb-2">{spirit.emoji}</div>
               <div className="text-lg font-bold text-purple-400 mb-1">
                 {spirit.name}
               </div>
-              <div className="text-xs text-gray-400">{spirit.personality}</div>
+              <div className="text-xs text-gray-500 italic">{spirit.personality}</div>
+              <div className="text-xs text-purple-600 mt-2">Click to summon →</div>
             </button>
           ))}
         </div>
@@ -110,17 +121,22 @@ export default function SeanceMode({ result }: SeanceModeProps) {
 
       {!isChanneling && selectedSpirit !== null && (
         <div className="space-y-6 animate-fade-in">
-          <div className="text-center p-6 bg-purple-950 bg-opacity-50 border-2 border-purple-500 rounded">
-            <div className="text-6xl mb-4">{SPIRIT_GUIDES[selectedSpirit].emoji}</div>
-            <div className="text-2xl font-bold text-purple-400 mb-2">
+          <div className="text-center p-6 bg-purple-950 bg-opacity-50 border-2 border-purple-500 rounded relative">
+            <div className="absolute top-2 left-2 text-xs text-purple-600">🕯️</div>
+            <div className="absolute top-2 right-2 text-xs text-purple-600">🕯️</div>
+            <div className="text-6xl mb-4 animate-float">{SPIRIT_GUIDES[selectedSpirit].emoji}</div>
+            <div className="text-2xl font-bold text-purple-400 mb-2" style={{ fontFamily: 'Creepster, cursive' }}>
               {SPIRIT_GUIDES[selectedSpirit].name}
             </div>
-            <div className="text-sm text-gray-400 mb-4">
+            <div className="text-sm text-gray-500 mb-4 italic">
               {SPIRIT_GUIDES[selectedSpirit].personality}
             </div>
+            <div className="h-px bg-purple-500 w-24 mx-auto mb-4"></div>
             <div className="text-lg text-gray-200 leading-relaxed italic">
               "{SPIRIT_GUIDES[selectedSpirit].advice(result)}"
             </div>
+            <div className="absolute bottom-2 left-2 text-xs text-purple-600">🕯️</div>
+            <div className="absolute bottom-2 right-2 text-xs text-purple-600">🕯️</div>
           </div>
 
           <div className="text-center">
