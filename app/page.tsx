@@ -391,43 +391,7 @@ Analyzed by Ghosted.gg`
             <ShareCard result={result} rizzScore={Math.max(0, 100 - result.ghosting_probability)} />
             
             {/* Action Buttons */}
-            <div className="mt-8 space-y-4">
-              {/* MASSIVE TWITTER SHARE CTA */}
-              <div className="text-center p-6 bg-gradient-to-r from-blue-900 to-blue-700 border-4 border-blue-500 rounded">
-                <p className="text-white text-lg font-bold mb-3">
-                  🔥 Your result is BRUTAL. Share the pain:
-                </p>
-                <button
-                  onClick={() => {
-                    try {
-                      const grade = result.ghosting_probability > 90 ? 'F-' :
-                                   result.ghosting_probability > 80 ? 'F' :
-                                   result.ghosting_probability > 70 ? 'D' :
-                                   result.ghosting_probability > 60 ? 'C' : 'B'
-                      const tweetText = `I got a ${grade} on Ghosted.gg 💀
-
-Cause of death: ${result.cause_of_death}
-
-Ghosting probability: ${result.ghosting_probability}%
-
-Get roasted: ${window.location.origin}`
-                      const twitterUrl = `https://twitter.com/intent/tweet?text=${encodeURIComponent(tweetText)}`
-                      const newWindow = window.open(twitterUrl, '_blank', 'noopener,noreferrer')
-                      if (!newWindow) {
-                        // Fallback if popup blocked
-                        window.location.href = twitterUrl
-                      }
-                    } catch (error) {
-                      console.error('Twitter share failed:', error)
-                      alert('Could not open Twitter. Please check your popup blocker.')
-                    }
-                  }}
-                  className="px-8 py-4 bg-blue-500 hover:bg-blue-400 text-white font-bold text-lg rounded transition-all transform hover:scale-105 cursor-pointer"
-                >
-                  🐦 Share on Twitter
-                </button>
-              </div>
-              
+            <div className="mt-8">
               <div className="flex gap-4 justify-center flex-wrap">
                 <button
                   onClick={copyResults}
@@ -459,6 +423,11 @@ Get roasted: ${window.location.origin}`
                   ⚰️ New Victim
                 </button>
               </div>
+            </div>
+            
+            {/* Share Tip */}
+            <div className="mt-6 text-center text-gray-500 text-sm">
+              <p>💡 Screenshot your results and share on social media!</p>
             </div>
           </div>
         )}
