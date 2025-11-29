@@ -21,11 +21,64 @@ export default function AnimatedStory({ messages, analysis, onComplete }: Animat
   const [isDead, setIsDead] = useState(false)
   const [shake, setShake] = useState(false)
 
+  // Sound effects using Web Audio API
+  const playSound = (type: 'message' | 'redflag' | 'heartbeat' | 'flatline') => {
+    const audioContext = new (window.AudioContext || (window as any).webkitAudioContext)()
+    const oscillator = audioContext.createOscillator()
+    const gainNode = audioContext.createGain()
+    
+    oscillator.connect(gainNode)
+    gainNode.connect(audioContext.destination)
+    
+    switch(type) {
+      case 'message':
+        // Soft pop sound
+        oscillator.frequency.value = 800
+        gainNode.gain.setValueAtTime(0.1, audioContext.currentTime)
+        gainNode.gain.exponentialRampToValueAtTime(0.01, audioContext.currentTime + 0.1)
+        oscillator.start(audioContext.currentTime)
+        oscillator.stop(audioContext.currentTime + 0.1)
+        break
+      
+      case 'redflag':
+        // Alarm sound
+        oscillator.frequency.value = 440
+        oscillator.type = 'square'
+        gainNode.gain.setValueAtTime(0.3, audioContext.currentTime)
+        gainNode.gain.exponentialRampToValueAtTime(0.01, audioContext.currentTime + 0.3)
+        oscillator.start(audioContext.currentTime)
+        oscillator.stop(audioContext.currentTime + 0.3)
+        break
+      
+      case 'heartbeat':
+        // Heartbeat thump
+        oscillator.frequency.value = 60
+        oscillator.type = 'sine'
+        gainNode.gain.setValueAtTime(0.5, audioContext.currentTime)
+        gainNode.gain.exponentialRampToValueAtTime(0.01, audioContext.currentTime + 0.2)
+        oscillator.start(audioContext.currentTime)
+        oscillator.stop(audioContext.currentTime + 0.2)
+        break
+      
+      case 'flatline':
+        // Long beep
+        oscillator.frequency.value = 1000
+        oscillator.type = 'sine'
+        gainNode.gain.setValueAtTime(0.3, audioContext.currentTime)
+        gainNode.gain.setValueAtTime(0.3, audioContext.currentTime + 2)
+        gainNode.gain.exponentialRampToValueAtTime(0.01, audioContext.currentTime + 2.5)
+        oscillator.start(audioContext.currentTime)
+        oscillator.stop(audioContext.currentTime + 2.5)
+        break
+    }
+  }
+
   useEffect(() => {
     if (currentIndex >= messages.length) {
       // Conversation ended
       setTimeout(() => {
         setIsDead(true)
+        playSound('flatline')
         setTimeout(onComplete, 3000)
       }, 1000)
       return
@@ -47,10 +100,19 @@ export default function AnimatedStory({ messages, analysis, onComplete }: Animat
     function revealMessage() {
       setCurrentIndex(prev => prev + 1)
       
+      // Play message sound
+      playSound('message')
+      
       // Calculate health drop
       const progressPercent = (currentIndex / messages.length) * 100
       const targetHealth = 100 - (analysis.ghosting_probability * (progressPercent / 100))
-      setHealth(Math.max(0, targetHealth))
+      const newHealth = Math.max(0, targetHealth)
+      setHealth(newHealth)
+      
+      // Play heartbeat when health is low
+      if (newHealth < 30 && newHealth > 0) {
+        setTimeout(() => playSound('heartbeat'), 200)
+      }
       
       // Show red flags at certain points
       if (currentIndex === Math.floor(messages.length * 0.3) && analysis.red_flags[0]) {
@@ -68,10 +130,33 @@ export default function AnimatedStory({ messages, analysis, onComplete }: Animat
   const triggerRedFlag = (flag: string) => {
     setRedFlags(prev => [...prev, flag])
     setShake(true)
+    playSound('redflag')
     setTimeout(() => setShake(false), 500)
   }
 
   const displayedMessages = messages.slice(0, currentIndex)
+
+  // Start ambient spooky sound on mount
+  useEffect(() => {
+    const audioContext = new (window.AudioContext || (window as any).webkitAudioContext)()
+    const oscillator = audioContext.createOscillator()
+    const gainNode = audioContext.createGain()
+    
+    oscillator.connect(gainNode)
+    gainNode.connect(audioContext.destination)
+    
+    // Low frequency drone
+    oscillator.frequency.value = 55
+    oscillator.type = 'sine'
+    gainNode.gain.setValueAtTime(0.05, audioContext.currentTime)
+    
+    oscillator.start()
+    
+    return () => {
+      oscillator.stop()
+      audioContext.close()
+    }
+  }, [])
 
   return (
     <div className={`fixed inset-0 bg-black z-50 flex flex-col ${shake ? 'animate-shake' : ''}`}>
