@@ -1,0 +1,284 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@import url('https://fonts.googleapis.com/css2?family=Creepster&family=Nosifer&family=Eater&display=swap');
+
+body {
+  background: #0a0a0a;
+  color: #ffffff;
+  font-family: 'Courier New', monospace;
+  position: relative;
+  min-height: 100vh;
+  overflow-x: hidden;
+}
+
+/* Animated background */
+body::before {
+  content: '';
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: 
+    radial-gradient(circle at 20% 50%, rgba(139, 0, 139, 0.15) 0%, transparent 50%),
+    radial-gradient(circle at 80% 80%, rgba(255, 69, 0, 0.15) 0%, transparent 50%),
+    radial-gradient(circle at 40% 20%, rgba(0, 255, 0, 0.1) 0%, transparent 50%);
+  animation: ghostlyMove 20s ease-in-out infinite;
+  pointer-events: none;
+  z-index: 0;
+}
+
+@keyframes ghostlyMove {
+  0%, 100% { transform: translate(0, 0) scale(1); }
+  33% { transform: translate(50px, -30px) scale(1.1); }
+  66% { transform: translate(-30px, 50px) scale(0.9); }
+}
+
+/* Floating ghosts */
+.floating-ghost {
+  position: fixed;
+  font-size: 3rem;
+  opacity: 0.3;
+  animation: float 15s ease-in-out infinite;
+  pointer-events: none;
+  z-index: 1;
+}
+
+.floating-ghost:nth-child(1) { top: 10%; left: 10%; animation-delay: 0s; }
+.floating-ghost:nth-child(2) { top: 60%; right: 15%; animation-delay: 3s; }
+.floating-ghost:nth-child(3) { bottom: 20%; left: 20%; animation-delay: 6s; }
+
+@keyframes float {
+  0%, 100% { transform: translateY(0px) rotate(0deg); opacity: 0.2; }
+  50% { transform: translateY(-30px) rotate(5deg); opacity: 0.4; }
+}
+
+.horror-title {
+  font-family: 'Creepster', cursive;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  font-weight: 400;
+  text-shadow: 
+    0 0 10px #ff0000,
+    0 0 20px #ff0000,
+    0 0 30px #ff0000,
+    0 0 40px #ff0000;
+  animation: flicker 3s ease-in-out infinite;
+}
+
+@keyframes flicker {
+  0%, 100% { opacity: 1; }
+  41%, 43% { opacity: 0.8; }
+  45%, 47% { opacity: 0.9; }
+  49% { opacity: 1; }
+}
+
+.subtitle-spooky {
+  font-family: 'Eater', cursive;
+  color: #ff6b00;
+  text-shadow: 0 0 10px #ff6b00;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes shake {
+  0%, 100% { transform: translateX(0); }
+  25% { transform: translateX(-5px) rotate(-2deg); }
+  75% { transform: translateX(5px) rotate(2deg); }
+}
+
+@keyframes pulse {
+  0%, 100% { transform: scale(1); }
+  50% { transform: scale(1.05); }
+}
+
+.animate-fade-in {
+  animation: fadeIn 0.8s ease-out;
+}
+
+.ghost-card {
+  background: rgba(0, 0, 0, 0.85);
+  border: 2px solid #ff0000;
+  box-shadow: 
+    0 0 20px rgba(255, 0, 0, 0.3),
+    inset 0 0 20px rgba(255, 0, 0, 0.1);
+  position: relative;
+}
+
+.ghost-card::before {
+  content: '';
+  position: absolute;
+  top: -2px;
+  left: -2px;
+  right: -2px;
+  bottom: -2px;
+  background: linear-gradient(45deg, #ff0000, #ff6b00, #00ff00, #ff0000);
+  background-size: 400% 400%;
+  animation: borderGlow 3s ease infinite;
+  z-index: -1;
+  opacity: 0.3;
+  filter: blur(10px);
+}
+
+@keyframes borderGlow {
+  0%, 100% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+}
+
+.input-spooky {
+  background: rgba(0, 0, 0, 0.9);
+  border: 2px solid #ff6b00;
+  box-shadow: 
+    0 0 15px rgba(255, 107, 0, 0.3),
+    inset 0 0 10px rgba(255, 0, 0, 0.2);
+  transition: all 0.3s ease;
+}
+
+.input-spooky:focus {
+  outline: none;
+  border-color: #ff0000;
+  box-shadow: 
+    0 0 25px rgba(255, 0, 0, 0.5),
+    inset 0 0 15px rgba(255, 0, 0, 0.3);
+}
+
+.input-spooky::placeholder {
+  color: #666;
+}
+
+.btn-deadly {
+  background: linear-gradient(135deg, #8b0000 0%, #ff0000 50%, #ff6b00 100%);
+  border: 2px solid #ff0000;
+  text-transform: uppercase;
+  letter-spacing: 0.2em;
+  font-weight: bold;
+  transition: all 0.3s ease;
+  position: relative;
+  overflow: hidden;
+  box-shadow: 0 0 20px rgba(255, 0, 0, 0.5);
+}
+
+.btn-deadly::before {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 0;
+  height: 0;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.3);
+  transform: translate(-50%, -50%);
+  transition: width 0.6s, height 0.6s;
+}
+
+.btn-deadly:hover::before {
+  width: 300px;
+  height: 300px;
+}
+
+.btn-deadly:hover:not(:disabled) {
+  animation: shake 0.5s ease-in-out;
+  box-shadow: 0 0 40px rgba(255, 0, 0, 0.8);
+}
+
+.btn-deadly:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+  animation: pulse 2s ease-in-out infinite;
+}
+
+.skull-icon {
+  filter: drop-shadow(0 0 10px #ff0000);
+  animation: float 3s ease-in-out infinite;
+}
+
+.blood-drip {
+  color: #8b0000;
+  text-shadow: 0 0 10px #ff0000;
+}
+
+.toxic-comment {
+  background: rgba(139, 0, 0, 0.3);
+  border: 2px solid #ff0000;
+  border-left: 5px solid #ff0000;
+  font-style: italic;
+  position: relative;
+}
+
+.toxic-comment::before {
+  content: '☠️';
+  position: absolute;
+  top: -15px;
+  left: 10px;
+  font-size: 2rem;
+  animation: float 2s ease-in-out infinite;
+}
+
+.probability-bar {
+  background: linear-gradient(90deg, #8b0000 0%, #ff0000 50%, #ff6b00 100%);
+  transition: width 2s cubic-bezier(0.4, 0, 0.2, 1);
+  box-shadow: 0 0 10px rgba(255, 0, 0, 0.8);
+}
+
+.spooky-button {
+  background: rgba(0, 0, 0, 0.8);
+  border: 2px solid #ff6b00;
+  transition: all 0.3s ease;
+}
+
+.spooky-button:hover {
+  border-color: #ff0000;
+  background: rgba(139, 0, 0, 0.3);
+  box-shadow: 0 0 15px rgba(255, 0, 0, 0.5);
+  transform: translateY(-2px);
+}
+
+.sample-card {
+  background: rgba(0, 0, 0, 0.7);
+  border: 1px solid #333;
+  transition: all 0.3s ease;
+  cursor: pointer;
+}
+
+.sample-card:hover {
+  border-color: #ff6b00;
+  background: rgba(139, 0, 0, 0.2);
+  transform: scale(1.05);
+  box-shadow: 0 0 20px rgba(255, 107, 0, 0.4);
+}
+
+.web-decoration {
+  position: fixed;
+  opacity: 0.1;
+  pointer-events: none;
+  z-index: 1;
+}
+
+.web-top-left {
+  top: 0;
+  left: 0;
+  width: 200px;
+  height: 200px;
+  background: radial-gradient(circle at 0% 0%, #fff 1px, transparent 1px);
+  background-size: 20px 20px;
+}
+
+.web-top-right {
+  top: 0;
+  right: 0;
+  width: 200px;
+  height: 200px;
+  background: radial-gradient(circle at 100% 0%, #fff 1px, transparent 1px);
+  background-size: 20px 20px;
+}
