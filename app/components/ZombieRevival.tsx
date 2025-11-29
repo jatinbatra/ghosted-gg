@@ -162,7 +162,9 @@ export default function ZombieRevival({ result, originalMessages }: ZombieReviva
             </div>
           )}
         </div>
-      ) : (
+      )}
+
+      {revivalMessage && !isGenerating && (
         <div className="space-y-4 animate-fade-in relative z-10">
           <div className="text-center mb-4">
             <div className="text-5xl mb-2">✨</div>
