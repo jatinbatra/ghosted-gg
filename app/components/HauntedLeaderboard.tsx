@@ -16,6 +16,10 @@ export default function HauntedLeaderboard() {
   const [timeframe, setTimeframe] = useState<'week' | 'month' | 'alltime'>('week')
 
   useEffect(() => {
+    loadLeaderboard()
+  }, [timeframe])
+
+  const loadLeaderboard = () => {
     // Load from localStorage (in production, this would be a backend API)
     const saved = localStorage.getItem('ghosted_leaderboard')
     if (saved) {
@@ -60,11 +64,10 @@ export default function HauntedLeaderboard() {
           timestamp: Date.now() - 432000000
         }
       ]
-      const filtered = staffPicks
-      setLeaderboard(filtered)
       localStorage.setItem('ghosted_leaderboard', JSON.stringify(staffPicks))
+      filterByTimeframe(staffPicks)
     }
-  }, [timeframe])
+  }
 
   const filterByTimeframe = (entries: LeaderboardEntry[]) => {
     const now = Date.now()
