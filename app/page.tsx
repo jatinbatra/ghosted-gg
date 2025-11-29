@@ -210,13 +210,13 @@ Analyzed by Ghosted.gg`
               inputMode === 'text' ? 'border-red-500 bg-red-900 bg-opacity-30' : ''
             }`}
           >
-            ✍️ Type Text
+            ✍️ Scribe
           </button>
           <button
             onClick={pasteFromClipboard}
             className="spooky-button px-5 py-3 text-xs tracking-wider uppercase font-bold text-orange-400"
           >
-            📋 Paste
+            📜 Summon Text
           </button>
           <button
             onClick={() => setInputMode('screenshot')}
@@ -224,14 +224,14 @@ Analyzed by Ghosted.gg`
               inputMode === 'screenshot' ? 'border-red-500 bg-red-900 bg-opacity-30' : ''
             }`}
           >
-            📸 Screenshot
+            📸 Capture
           </button>
         </div>
 
         {/* Input Section */}
         <div className="mb-8">
           <label className="block text-xs text-gray-400 mb-3 tracking-widest uppercase">
-            {inputMode === 'text' ? 'Conversation Transcript' : 'Upload Chat Screenshot'}
+            {inputMode === 'text' ? '📜 Cursed Conversation' : '📸 Haunted Screenshot'}
           </label>
           
           {inputMode === 'text' ? (
@@ -270,7 +270,7 @@ Analyzed by Ghosted.gg`
               
               {conversation && (
                 <div className="mt-4">
-                  <p className="text-xs text-gray-500 mb-2 tracking-wider">EXTRACTED TEXT:</p>
+                  <p className="text-xs text-gray-500 mb-2 tracking-wider">👻 SUMMONED TEXT:</p>
                   <textarea
                     value={conversation}
                     onChange={(e) => setConversation(e.target.value)}
@@ -332,7 +332,7 @@ Analyzed by Ghosted.gg`
                 onClick={copyResults}
                 className="spooky-button px-6 py-3 text-sm tracking-wider uppercase font-bold text-orange-400"
               >
-                📋 Copy Results
+                📜 Copy Curse
               </button>
               <button
                 onClick={() => {
@@ -346,7 +346,7 @@ Analyzed by Ghosted.gg`
                 }}
                 className="spooky-button px-6 py-3 text-sm tracking-wider uppercase font-bold text-orange-400"
               >
-                📤 Share
+                👻 Haunt Friends
               </button>
               <button
                 onClick={() => {
@@ -355,7 +355,7 @@ Analyzed by Ghosted.gg`
                 }}
                 className="spooky-button px-6 py-3 text-sm tracking-wider uppercase font-bold text-orange-400 hover:border-red-500"
               >
-                🔄 New Autopsy
+                ⚰️ New Victim
               </button>
             </div>
           </div>

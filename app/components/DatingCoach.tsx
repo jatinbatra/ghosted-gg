@@ -72,38 +72,38 @@ export default function DatingCoach({ result, originalMessages }: DatingCoachPro
       {/* Header */}
       <div className="text-center">
         <h2 className="text-4xl font-bold text-orange-500 mb-2" style={{ fontFamily: 'Creepster, cursive' }}>
-          🎓 AI DATING COACH
+          🧙‍♂️ SPIRIT GUIDE WISDOM
         </h2>
-        <p className="text-gray-400">Let's fix your game</p>
+        <p className="text-gray-400">Ancient dating secrets from beyond the grave</p>
       </div>
 
       {/* Score Cards */}
       <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
         <div className="ghost-card p-4 text-center">
           <div className="text-3xl font-bold text-orange-500">{rizzScore}</div>
-          <div className="text-xs text-gray-400 mt-1">RIZZ SCORE</div>
+          <div className="text-xs text-gray-400 mt-1">🎃 CHARM LEVEL</div>
         </div>
         <div className="ghost-card p-4 text-center">
           <div className="text-3xl font-bold text-orange-500">{energyScore}</div>
-          <div className="text-xs text-gray-400 mt-1">ENERGY MATCH</div>
+          <div className="text-xs text-gray-400 mt-1">⚡ VIBE MATCH</div>
         </div>
         <div className="ghost-card p-4 text-center">
           <div className="text-3xl font-bold text-orange-500">{questionScore}</div>
-          <div className="text-xs text-gray-400 mt-1">QUESTION QUALITY</div>
+          <div className="text-xs text-gray-400 mt-1">🔮 CURIOSITY</div>
         </div>
         <div className="ghost-card p-4 text-center">
           <div className="text-3xl font-bold text-orange-500">{emojiScore}</div>
-          <div className="text-xs text-gray-400 mt-1">EMOJI USAGE</div>
+          <div className="text-xs text-gray-400 mt-1">👻 SPIRIT USE</div>
         </div>
       </div>
 
       {/* What Went Wrong */}
       <div className="ghost-card p-6">
-        <h3 className="text-xl font-bold text-red-500 mb-4">🔥 What Went Wrong</h3>
+        <h3 className="text-xl font-bold text-red-500 mb-4">☠️ FATAL MISTAKES</h3>
         <div className="space-y-3">
           {result.red_flags.slice(0, 3).map((flag: string, idx: number) => (
             <div key={idx} className="flex items-start gap-3 p-3 bg-red-950 bg-opacity-30 border-l-4 border-red-500">
-              <span className="text-2xl">❌</span>
+              <span className="text-2xl">💀</span>
               <div>
                 <p className="text-orange-200 font-semibold">{flag}</p>
                 <p className="text-gray-400 text-sm mt-1">
@@ -117,11 +117,11 @@ export default function DatingCoach({ result, originalMessages }: DatingCoachPro
 
       {/* Actionable Tips */}
       <div className="ghost-card p-6">
-        <h3 className="text-xl font-bold text-green-500 mb-4">✅ How to Fix It</h3>
+        <h3 className="text-xl font-bold text-green-500 mb-4">🧪 RESURRECTION POTION</h3>
         <div className="space-y-3">
           {getTips(result.red_flags).map((tip: string, idx: number) => (
             <div key={idx} className="flex items-start gap-3 p-3 bg-green-950 bg-opacity-20 border-l-4 border-green-500">
-              <span className="text-2xl">💡</span>
+              <span className="text-2xl">🧪</span>
               <p className="text-gray-200">{tip}</p>
             </div>
           ))}
@@ -133,9 +133,9 @@ export default function DatingCoach({ result, originalMessages }: DatingCoachPro
         <div className="text-center">
           <button
             onClick={() => setShowAlternate(!showAlternate)}
-            className="spooky-button px-8 py-4 text-lg font-bold text-orange-400"
+            className="spooky-button px-8 py-4 text-lg font-bold text-purple-400 hover:bg-purple-900"
           >
-            {showAlternate ? '🔙 Hide' : '🔮 Show'} Alternate Reality
+            {showAlternate ? '👻 Hide' : '🔮 Summon'} Parallel Universe
           </button>
         </div>
       )}
@@ -143,11 +143,11 @@ export default function DatingCoach({ result, originalMessages }: DatingCoachPro
       {/* Alternate Reality Comparison */}
       {showAlternate && improvements.length > 0 && (
         <div className="ghost-card p-6 border-4 border-purple-500">
-          <h3 className="text-2xl font-bold text-purple-400 mb-4 text-center">
-            🔮 ALTERNATE REALITY: What You Should Have Said
+          <h3 className="text-2xl font-bold text-purple-400 mb-4 text-center" style={{ fontFamily: 'Creepster, cursive' }}>
+            🔮 PARALLEL UNIVERSE VISION
           </h3>
           <p className="text-gray-400 text-center mb-6">
-            Here's how this conversation could have gone...
+            The spirits show you what could have been...
           </p>
           
           <div className="space-y-6">
@@ -156,13 +156,13 @@ export default function DatingCoach({ result, originalMessages }: DatingCoachPro
                 <div className="grid md:grid-cols-2 gap-4">
                   {/* Original */}
                   <div className="p-4 bg-red-950 bg-opacity-30 border-2 border-red-500 rounded">
-                    <div className="text-xs text-red-400 font-bold mb-2">❌ WHAT YOU SAID</div>
+                    <div className="text-xs text-red-400 font-bold mb-2">💀 YOUR CURSED WORDS</div>
                     <p className="text-gray-200">{imp.original}</p>
                   </div>
                   
                   {/* Better */}
                   <div className="p-4 bg-green-950 bg-opacity-30 border-2 border-green-500 rounded">
-                    <div className="text-xs text-green-400 font-bold mb-2">✅ WHAT YOU SHOULD SAY</div>
+                    <div className="text-xs text-green-400 font-bold mb-2">✨ BLESSED ALTERNATIVE</div>
                     <p className="text-gray-200">{imp.better}</p>
                   </div>
                 </div>
@@ -178,9 +178,11 @@ export default function DatingCoach({ result, originalMessages }: DatingCoachPro
 
       {/* Final Wisdom */}
       <div className="ghost-card p-8 text-center border-4 border-orange-500">
-        <div className="text-5xl mb-4">🧙‍♂️</div>
-        <h3 className="text-2xl font-bold text-orange-500 mb-3">Dating Wisdom</h3>
-        <p className="text-gray-200 text-lg leading-relaxed max-w-2xl mx-auto">
+        <div className="text-5xl mb-4">🔮</div>
+        <h3 className="text-2xl font-bold text-orange-500 mb-3" style={{ fontFamily: 'Creepster, cursive' }}>
+          PROPHECY FROM THE CRYPT
+        </h3>
+        <p className="text-gray-200 text-lg leading-relaxed max-w-2xl mx-auto italic">
           {getFinalWisdom(result.ghosting_probability)}
         </p>
       </div>

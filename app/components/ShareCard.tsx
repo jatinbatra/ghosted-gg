@@ -60,7 +60,7 @@ Analyzed at Ghosted.gg 👻`
           onClick={downloadCard}
           className="spooky-button px-6 py-3 text-sm font-bold text-orange-400"
         >
-          📸 Copy for Social Media
+          📸 Capture Spirit
         </button>
       </div>
     </div>
